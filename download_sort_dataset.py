@@ -51,4 +51,8 @@ for i in range(len(list_label)):
     np.save(source, reader)
     #continue move
     shutil.move(source,destination)
+    
+
+#COMPLETE
+print("complete download and sort")
 
