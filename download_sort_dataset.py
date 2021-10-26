@@ -14,17 +14,20 @@ dataset_url= "https://datasets.ircam.fr/coversdataset/shs_4/f0_cqts_padded_1937x
 csv_url="https://datasets.ircam.fr/coversdataset/shs_4/examples.csv"
 download_url(dataset_url, '.')
 download_url(csv_url,".")
+print("complete download url")
 
 # Extract from archive
 extract_data="./extract_data"
 os.mkdir(extract_data)
 with tarfile.open('./f0_cqts_padded_1937x36.tar.gz', 'r:gz') as tar:
     tar.extractall(path=extract_data)
+print("complete extract to extract_data")
 
 #sort data each class based on csv 
 with open('examples.csv', 'r') as file:
     reader = csv.reader(file)
     list_label = list(reader)
+
 
 #for make folder each title of cover song
 parent= "./data_repo"
