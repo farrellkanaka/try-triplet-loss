@@ -10,7 +10,7 @@ flags.DEFINE_integer('step', 50, 'Save after ... iteration')
 flags.DEFINE_float('learning_rate','0.01','Learning rate')
 flags.DEFINE_float('momentum','0.99', 'Momentum')
 flags.DEFINE_string('model', 'conv_net', 'model to run')
-flags.DEFINE_string('data_src', './content/try-triplet-loss/data_repo/', 'source of training dataset')
+flags.DEFINE_string('data_src', './data_repo/', 'source of training dataset')
 
 if __name__ == "__main__":
 
