@@ -38,7 +38,7 @@ class PreProcessing:
         for directory in os.listdir(self.data_src):
             try:
                 for pic in os.listdir(os.path.join(self.data_src, directory)):
-                    img = imread(os.path.join(self.data_src, directory, pic))
+                    img = np.load(os.path.join(self.data_src, directory, pic))
                     X.append(np.squeeze(np.asarray(img)))
                     y.append(directory)
             except Exception as e:
