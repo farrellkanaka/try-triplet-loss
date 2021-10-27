@@ -22,6 +22,7 @@ os.mkdir(extract_data)
 with tarfile.open('./f0_cqts_padded_1937x36.tar.gz', 'r:gz') as tar:
     tar.extractall(path=extract_data)
 print("complete extract to extract_data")
+os.remove('./f0_cqts_padded_1937x36.tar.gz')
 
 #sort data each class based on csv 
 with open('examples.csv', 'r') as file:
