@@ -17,21 +17,21 @@ class TripletLoss:
                                                weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
                                                scope=scope,normalizer_fn=tf.contrib.layers.batch_norm, reuse=reuse)
                 net = tf.contrib.layers.avg_pool2d(net, [3, 2], stride=[3,2], padding='SAME')
-               net = tf.contrib.layers.dropout(net,keep_prob=0.9,scope=scope)
+                net = tf.contrib.layers.dropout(net,keep_prob=0.9,scope=scope)
 
             with tf.variable_scope("conv3") as scope:
                 net = tf.contrib.layers.conv2d(net, 256, [3, 3], activation_fn=tf.nn.relu, padding='SAME',
                                                weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
                                                scope=scope,normalizer_fn=tf.contrib.layers.batch_norm, reuse=reuse)
                 net = tf.contrib.layers.avg_pool2d(net, [3, 2], stride=[3,2], padding='SAME')
-                 net = tf.contrib.layers.dropout(net,keep_prob=0.8,scope=scope)
+                net = tf.contrib.layers.dropout(net,keep_prob=0.8,scope=scope)
 
             with tf.variable_scope("conv4") as scope:
                 net = tf.contrib.layers.conv2d(net, 512, [3, 3], activation_fn=tf.nn.relu, padding='SAME',
                                                weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
                                                scope=scope,normalizer_fn=tf.contrib.layers.batch_norm, reuse=reuse)
                 net = tf.contrib.layers.avg_pool2d(net, [3, 2], stride=[3,2], padding='SAME')
-                 net = tf.contrib.layers.dropout(net,keep_prob=0.7,scope=scope)
+                net = tf.contrib.layers.dropout(net,keep_prob=0.7,scope=scope)
 
             with tf.variable_scope("conv5") as scope:
                 net = tf.contrib.layers.conv2d(net, 1024, [3, 3], activation_fn=None, padding='SAME',
