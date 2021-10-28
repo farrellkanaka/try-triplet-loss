@@ -14,8 +14,9 @@ class PreProcessing:
 
     def __init__(self,data_src):
         self.data_src = data_src
-        print("Loading Geological Similarity Dataset...")
+        print("Loading Dataset...")
         self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.9)
+        print("done split")
         self.unique_train_label = np.unique(self.labels_train)
         self.map_train_label_indices = {label: np.flatnonzero(self.labels_train == label) for label in
                                         self.unique_train_label}
@@ -52,14 +53,18 @@ class PreProcessing:
         labels = list(set(y))
         label_dict = dict(zip(labels, range(len(labels))))
         Y = np.asarray([label_dict[label] for label in y])
-        X = [self.normalize(x) for x in X]                                  # normalize images
-
+        X = np.array(X)
+        #X = [self.normalize(x) for x in X]                                  # normalize images
+        print("done make X array")
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         x_shuffled = []
         y_shuffled = []
         for index in shuffle_indices:
             x_shuffled.append(X[index])
             y_shuffled.append(Y[index])
+        del X 
+        del Y 
+        print("done shuffling")
 
         size_of_dataset = len(x_shuffled)
         n_train = int(np.ceil(size_of_dataset * train_test_ratio))
