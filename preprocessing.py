@@ -46,7 +46,9 @@ class PreProcessing:
                 print('Failed to read images from Directory: ', directory)
                 print('Exception Message: ', e)
         print("ini type X",type(X))
-        print("ini shape X",np.shape(X))
+        print("ini shape X1 ",len(X))
+        print("ini shape X2 ",len(X[1]))
+
         print('Dataset loaded successfully.')
         return X,y
 
@@ -66,8 +68,11 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
-        print("ini type X",type(X))
-        print("ini shape X",np.shape(X))
+        print("ini type Xshuf",type(X))
+        print("ini shape Xshuf1 ",len(X))
+        print("ini shape Xshuf2 ",len(X[1]))
+
+        
         print("done shuffling")
 
         size_of_dataset = len(x_shuffled)
