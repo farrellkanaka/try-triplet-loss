@@ -1,6 +1,7 @@
 import os
 from matplotlib.image import imread
 import numpy as np
+import tables as pt
 
 
 class PreProcessing:
@@ -51,6 +52,10 @@ class PreProcessing:
 
         print('Dataset loaded successfully.')
         return X,y
+    def bigArray(self,x_shuffled)
+       
+    
+    return
 
     def preprocessing(self,train_test_ratio):
         X, y = self.read_dataset()
@@ -68,6 +73,7 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
+        x_shuffled = self.bigArray(x_shuffled)
         print("ini type Xshuf",type(x_shuffled))
         print("ini shape Xshuf1 ",len(x_shuffled))
         print("ini shape Xshuf2 ",len(x_shuffled[1]))
