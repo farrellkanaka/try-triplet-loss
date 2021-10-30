@@ -68,9 +68,9 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
-        print("ini type Xshuf",type(X))
-        print("ini shape Xshuf1 ",len(X))
-        print("ini shape Xshuf2 ",len(X[1]))
+        print("ini type Xshuf",type(x_shuffled))
+        print("ini shape Xshuf1 ",len(x_shuffled))
+        print("ini shape Xshuf2 ",len(x_shuffled[1]))
 
         
         print("done shuffling")
