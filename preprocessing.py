@@ -45,6 +45,8 @@ class PreProcessing:
             except Exception as e:
                 print('Failed to read images from Directory: ', directory)
                 print('Exception Message: ', e)
+        print("ini type X",type(X))
+        print("ini shape X",np.shape(X))
         print('Dataset loaded successfully.')
         return X,y
 
@@ -53,7 +55,7 @@ class PreProcessing:
         labels = list(set(y))
         label_dict = dict(zip(labels, range(len(labels))))
         Y = np.asarray([label_dict[label] for label in y])
-        X = np.array(X)
+        #X = np.array(X)
         #X = [self.normalize(x) for x in X]                                  # normalize images
         print("done make X array")
         shuffle_indices = np.random.permutation(np.arange(len(y)))
@@ -64,13 +66,20 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
+        print("ini type X",type(X))
+        print("ini shape X",np.shape(X))
         print("done shuffling")
 
         size_of_dataset = len(x_shuffled)
         n_train = int(np.ceil(size_of_dataset * train_test_ratio))
-        return np.asarray(x_shuffled[0:n_train]), np.asarray(x_shuffled[n_train + 1:size_of_dataset]), np.asarray(
-            y_shuffled[0:n_train]), np.asarray(y_shuffled[
-                                               n_train + 1:size_of_dataset])
+        A=1
+        B=1
+        C=1
+        D=1
+        return A,B,C,D
+        #return np.asarray(x_shuffled[0:n_train]), np.asarray(x_shuffled[n_train + 1:size_of_dataset]), np.asarray(
+            #y_shuffled[0:n_train]), np.asarray(y_shuffled[
+                                               #n_train + 1:size_of_dataset])
 
 
     def get_triplets(self):
