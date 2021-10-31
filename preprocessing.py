@@ -52,10 +52,10 @@ class PreProcessing:
 
         print('Dataset loaded successfully.')
         return X,y
-    def bigArray(self,x_shuffled)
+    def bigArray(self,x_shuffled):
        
     
-    return
+        return
 
     def preprocessing(self,train_test_ratio):
         X, y = self.read_dataset()
