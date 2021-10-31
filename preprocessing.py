@@ -41,7 +41,7 @@ class PreProcessing:
             try:
                 for pic in os.listdir(os.path.join(self.data_src, directory)):
                     img = np.load(os.path.join(self.data_src, directory, pic))
-                    X.append(np.squeeze(np.asarray(img)))
+                    X.append(np.asarray(img))
                     y.append(directory)
             except Exception as e:
                 print('Failed to read images from Directory: ', directory)
@@ -49,6 +49,7 @@ class PreProcessing:
         print("ini type X",type(X))
         print("ini shape X1 ",len(X))
         print("ini shape X2 ",len(X[1]))
+        print("ini shape X3 ",len(X[1][0]))
 
         print('Dataset loaded successfully.')
         return X,y
@@ -73,7 +74,8 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
-        x_shuffled = self.bigArray(x_shuffled)
+        
+        self.bigArray(x_shuffled)
         print("ini type Xshuf",type(x_shuffled))
         print("ini shape Xshuf1 ",len(x_shuffled))
         print("ini shape Xshuf2 ",len(x_shuffled[1]))
@@ -83,6 +85,8 @@ class PreProcessing:
 
         size_of_dataset = len(x_shuffled)
         n_train = int(np.ceil(size_of_dataset * train_test_ratio))
+        
+        
         A=1
         B=1
         C=1
