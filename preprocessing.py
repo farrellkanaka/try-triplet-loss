@@ -15,9 +15,12 @@ class PreProcessing:
 
     def __init__(self,data_src):
         self.data_src = data_src
+        # Create container
+        h5 = pt.open_file('inidata.h5', 'w')
+        filters = pt.Filters(complevel=6, complib='blosc')
         print("Loading Dataset...")
-        self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.9)
-        print("done split")
+        self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.9,h5,filters)
+        print("done preproc")
         self.unique_train_label = np.unique(self.labels_train)
         self.map_train_label_indices = {label: np.flatnonzero(self.labels_train == label) for label in
                                         self.unique_train_label}
@@ -46,26 +49,19 @@ class PreProcessing:
             except Exception as e:
                 print('Failed to read images from Directory: ', directory)
                 print('Exception Message: ', e)
-        print("ini type X",type(X))
-        print("ini shape X1 ",len(X))
-        print("ini shape X2 ",len(X[1]))
-        print("ini shape X3 ",len(X[1][0]))
+        
 
         print('Dataset loaded successfully.')
         return X,y
-    def bigArray(self,x_shuffled):
-       
-    
-        return
 
-    def preprocessing(self,train_test_ratio):
+    def preprocessing(self,train_test_ratio,h5,filters):
         X, y = self.read_dataset()
         labels = list(set(y))
         label_dict = dict(zip(labels, range(len(labels))))
         Y = np.asarray([label_dict[label] for label in y])
         #X = np.array(X)
         #X = [self.normalize(x) for x in X]                                  # normalize images
-        print("done make X array")
+        print("done normalize X")
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         x_shuffled = []
         y_shuffled = []
@@ -74,27 +70,34 @@ class PreProcessing:
             y_shuffled.append(Y[index])
         del X 
         del Y 
-        
-        self.bigArray(x_shuffled)
         print("ini type Xshuf",type(x_shuffled))
-        print("ini shape Xshuf1 ",len(x_shuffled))
-        print("ini shape Xshuf2 ",len(x_shuffled[1]))
-
+        print("ini shape Xshuf1 ",len(x_shuffled),len(x_shuffled[0]),len(x_shuffled[0][0]))
+        print("ini type yshuf",type(x_shuffled))
+        print("ini shape yshuf1 ",len(y_shuffled))
         
         print("done shuffling")
 
         size_of_dataset = len(x_shuffled)
         n_train = int(np.ceil(size_of_dataset * train_test_ratio))
+
+        A = h5.create_carray('/', 'carray1', atom=pt.Float32Atom(), shape=(n_train,len(x_shuffled[0]),len(x_shuffled[0][0])), filters=filters)
+        B = h5.create_carray('/', 'carray2', atom=pt.Float32Atom(), shape=(size_of_dataset-n_train,len(x_shuffled[0]),len(x_shuffled[0][0])), filters=filters)
+        print("done make carray")
         
+        i=0
+        while i < n_train:
+          A[i] = np.asarray(x_shuffled[i])
+          i+=1
+
+        print("done transfer data X to carray")
+        i= n_train
+        while i < size_of_dataset:
+          B[i-n_train] = np.asarray(x_shuffled[i])
+          i+=1
         
-        A=1
-        B=1
-        C=1
-        D=1
-        return A,B,C,D
-        #return np.asarray(x_shuffled[0:n_train]), np.asarray(x_shuffled[n_train + 1:size_of_dataset]), np.asarray(
-            #y_shuffled[0:n_train]), np.asarray(y_shuffled[
-                                               #n_train + 1:size_of_dataset])
+        print("done transfer data Y to carray")
+
+        return A,B,np.asarray(y_shuffled[0:n_train]), np.asarray(y_shuffled[n_train + 1:size_of_dataset])
 
 
     def get_triplets(self):
