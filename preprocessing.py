@@ -80,19 +80,23 @@ class PreProcessing:
         size_of_dataset = len(x_shuffled)
         n_train = int(np.ceil(size_of_dataset * train_test_ratio))
 
-        A = h5.create_carray('/', 'carray1', atom=pt.Float32Atom(), shape=(n_train,len(x_shuffled[0]),len(x_shuffled[0][0])), filters=filters)
-        B = h5.create_carray('/', 'carray2', atom=pt.Float32Atom(), shape=(size_of_dataset-n_train,len(x_shuffled[0]),len(x_shuffled[0][0])), filters=filters)
+        A = h5.create_carray('/', 'carray1', atom=pt.Float32Atom(), shape=(n_train,len(x_shuffled[0]),len(x_shuffled[0][0],),1), filters=filters)
+        B = h5.create_carray('/', 'carray2', atom=pt.Float32Atom(), shape=(size_of_dataset-n_train,len(x_shuffled[0]),len(x_shuffled[0][0]),1), filters=filters)
         print("done make carray")
         
         i=0
         while i < n_train:
-          A[i] = np.asarray(x_shuffled[i])
+          img=np.asarray(x_shuffled[i])
+          img = np.expand_dims(img, axis=-1)
+          A[i] = np.asarray(img)
           i+=1
 
         print("done transfer data X to carray")
         i= n_train
         while i < size_of_dataset:
-          B[i-n_train] = np.asarray(x_shuffled[i])
+          img= np.asarray(x_shuffled[i])
+          img=np.expand_dims(img,axis=-1)
+          B[i-n_train] = np.asarray(img)
           i+=1
         
         print("done transfer data Y to carray")
