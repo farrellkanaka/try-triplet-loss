@@ -10,8 +10,8 @@ import numpy as np
 import cv2
 
 #download dataset
-dataset_url= "https://datasets.ircam.fr/coversdataset/shs_4/f0_cqts_padded_1937x36.tar.gz"
-csv_url="https://datasets.ircam.fr/coversdataset/shs_4/examples.csv"
+dataset_url= "https://datasets.ircam.fr/coversdataset/shs_5/f0_cqts_padded_1937x36.tar.gz"
+csv_url="https://datasets.ircam.fr/coversdataset/shs_5/examples.csv"
 download_url(dataset_url, '.')
 download_url(csv_url,".")
 print("complete download url")
