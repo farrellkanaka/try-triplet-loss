@@ -21,15 +21,16 @@ class PreProcessing:
         print("Loading Dataset...")
         self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.9,h5,filters)
         print("done preproc")
-        self.unique_train_label = np.unique(self.labels_train)
+        self.unique_train_label = np.unique(self.labels_train)    #ambil label unique
         self.map_train_label_indices = {label: np.flatnonzero(self.labels_train == label) for label in
-                                        self.unique_train_label}
+                                        self.unique_train_label}   #dict label uniq dengan setiap label
         print('Preprocessing Done. Summary:')
         print("Images train :", self.images_train.shape)
         print("Labels train :", self.labels_train.shape)
         print("Images test  :", self.images_test.shape)
         print("Labels test  :", self.labels_test.shape)
         print("Unique label :", self.unique_train_label)
+        print("map indices: ",self.map_train_label_indices)
 
     def normalize(self,x):
         min_val = np.min(x)
@@ -56,18 +57,19 @@ class PreProcessing:
 
     def preprocessing(self,train_test_ratio,h5,filters):
         X, y = self.read_dataset()
-        labels = list(set(y))
-        label_dict = dict(zip(labels, range(len(labels))))
-        Y = np.asarray([label_dict[label] for label in y])
+        labels = list(set(y))       #shufling with set
+        #label_dict = dict(zip(labels, range(len(labels))))     #untuk memberi setiap label nama baru berurutan
+        #Y = np.asarray([label_dict[label] for label in y])      #same as exactly above
+        Y= np.asarray(y)
         #X = np.array(X)
         #X = [self.normalize(x) for x in X]                                  # normalize images
-        print("done normalize X")
-        shuffle_indices = np.random.permutation(np.arange(len(y)))
+        #print("done normalize X")
+        shuffle_indices = np.random.permutation(np.arange(len(y)))      #shuffling 2 dari y juga
         x_shuffled = []
         y_shuffled = []
         for index in shuffle_indices:
-            x_shuffled.append(X[index])
-            y_shuffled.append(Y[index])
+            x_shuffled.append(X[index])       #x yang sudah teracak urutannya,
+            y_shuffled.append(Y[index])       #dan y yang sinkron dengan x
         del X 
         del Y 
         print("ini type Xshuf",type(x_shuffled))
