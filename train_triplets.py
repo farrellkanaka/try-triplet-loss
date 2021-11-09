@@ -5,7 +5,7 @@ from model import TripletLoss
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_integer('batch_size', 256, 'Batch size.')
-flags.DEFINE_integer('train_iter', 200, 'Total training iter')
+flags.DEFINE_integer('train_iter', 100, 'Total training iter')
 flags.DEFINE_integer('step', 50, 'Save after ... iteration')
 flags.DEFINE_float('learning_rate','0.01','Learning rate')
 flags.DEFINE_float('momentum','0.99', 'Momentum')
@@ -54,11 +54,8 @@ if __name__ == "__main__":
 
         # Train iter
         for i in range(FLAGS.train_iter):
-            a,p,n= [], [], []
-            batch_anchor, batch_positive, batch_negative,a,p,n = next_batch(FLAGS.batch_size)
-            print("a",a)
-            print("p",p)
-            print("n",n)
+            batch_anchor, batch_positive, batch_negative = next_batch(FLAGS.batch_size)
+
             
 
             _, l, summary_str = sess.run([train_step, loss, merged],
