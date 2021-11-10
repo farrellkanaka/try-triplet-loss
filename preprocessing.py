@@ -19,7 +19,7 @@ class PreProcessing:
         h5 = pt.open_file('inidata.h5', 'w')
         filters = pt.Filters(complevel=6, complib='blosc')
         print("Loading Dataset...")
-        self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.99,h5,filters)
+        self.images_train, self.images_test, self.labels_train, self.labels_test = self.preprocessing(0.9,h5,filters)
         print("done preproc")
         self.unique_train_label = np.unique(self.labels_train)    #ambil label unique
         self.map_train_label_indices = {label: np.flatnonzero(self.labels_train == label) for label in
@@ -29,10 +29,6 @@ class PreProcessing:
         print("Labels train :", self.labels_train.shape)
         print("Images test  :", self.images_test.shape)
         print("Labels test  :", self.labels_test.shape)
-        print("Unique label :", self.unique_train_label)
-        print("labels train : ",self.labels_train)
-        print("labels test : ", self.labels_test)
-        print("map indices: ",self.map_train_label_indices)
 
     def normalize(self,x):
         min_val = np.min(x)
@@ -85,34 +81,36 @@ class PreProcessing:
         
         i=0
         while i < n_train:
-          img=np.asarray(X[i])
+          img=np.asarray(x_shuffled[i])
           img = np.expand_dims(img, axis=-1)
           A[i] = np.asarray(img)
           i+=1
 
         i= n_train
         while i < size_of_dataset:
-          img= np.asarray(X[i])
+          img= np.asarray(x_shuffled[i])
           img=np.expand_dims(img,axis=-1)
           B[i-n_train] = np.asarray(img)
           i+=1
         
 
-        return A,B,np.asarray(Y[0:n_train]), np.asarray(Y[n_train + 1:size_of_dataset])
+        return A,B,np.asarray(y_shuffled[0:n_train]), np.asarray(y_shuffled[n_train + 1:size_of_dataset])
 
 
     def get_triplets(self):
-        label_l, label_r = np.random.choice(self.unique_train_label, 2, replace=False)
-        a, p = np.random.choice(self.map_train_label_indices[label_l],2, replace=False)
+        label_l, label_r = np.random.choice(self.unique_train_label, 2, replace=True)
+        a, p = np.random.choice(self.map_train_label_indices[label_l],2, replace=True)
         n = np.random.choice(self.map_train_label_indices[label_r])
         return a, p, n
 
-    def get_triplets_batch(self,n):
+    def get_triplets_batch(self,numbatch):
         idxs_a, idxs_p, idxs_n = [], [], []
-        for num in range(n):
+      
+        num=0
+        while num <= numbatch:
           a, p, n = self.get_triplets()
-
-              #check if apn have duplicate
+          
+         
           for nom in range(len(idxs_a)):
             
             if idxs_a[nom]==a or idxs_p[nom]==p or idxs_n[nom]==n:
@@ -122,6 +120,8 @@ class PreProcessing:
               idxs_a.append(a)
               idxs_p.append(p)
               idxs_n.append(n)
-            #point break continue
+              num = num+1
+
+        print("1 batch")
         return self.images_train[idxs_a,:], self.images_train[idxs_p, :], self.images_train[idxs_n, :]
 
