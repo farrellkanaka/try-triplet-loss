@@ -42,7 +42,8 @@ class TripletLoss:
             net=tf.reduce_mean(net,[1,2],keepdims=True)
             
             net = tf.contrib.layers.flatten(net)
-            net=tf.contrib.layers.fully_connected(net,512,normalizer_fn=tf.math.l2_normalize())
+            net=tf.contrib.layers.fully_connected(net,512)
+            net=tf.math.l2_normalize(net)
 
         return net
 
