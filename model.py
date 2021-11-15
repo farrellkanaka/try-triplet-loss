@@ -40,8 +40,9 @@ class TripletLoss:
                 net = tf.contrib.layers.avg_pool2d(net, [3, 2], stride=[3,2], padding='SAME')
 
             net=tf.reduce_mean(net,[1,2],keepdims=True)
-            net = tf.contrib.layers.flatten(net)
             
+            net = tf.contrib.layers.flatten(net)
+            net=tf.contrib.layers.fully_connected(net,512,normalizer_fn=tf.math.l2_normalize())
 
         return net
 
