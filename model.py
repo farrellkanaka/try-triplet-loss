@@ -39,7 +39,9 @@ class TripletLoss:
                                                scope=scope,normalizer_fn=tf.contrib.layers.batch_norm, reuse=reuse)
                 net = tf.contrib.layers.avg_pool2d(net, [3, 2], stride=[3,2], padding='SAME')
 
+            net=tf.reduce_mean(net,[1,2],keepdims=True)
             net = tf.contrib.layers.flatten(net)
+            
 
         return net
 
