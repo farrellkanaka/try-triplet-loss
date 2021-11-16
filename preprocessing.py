@@ -122,6 +122,5 @@ class PreProcessing:
               idxs_n.append(n)
               num = num+1
 
-        print("1 batch")
         return self.images_train[idxs_a,:], self.images_train[idxs_p, :], self.images_train[idxs_n, :]
 
